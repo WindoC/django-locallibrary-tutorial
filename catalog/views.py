@@ -169,9 +169,11 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
 
-from django.core.paginator import Paginator
 
+from django.core.paginator import Paginator
 from django.core.cache import cache
+import requests
+from .forms import SearchCocktailForm
 
 @login_required
 def SearchCocktail(request):
