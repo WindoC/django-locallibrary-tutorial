@@ -23,3 +23,23 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+class SearchCocktailForm(forms.Form):
+    keyword = forms.CharField(help_text="Keyword to search Cocktail..")
+    page = forms.IntegerField(help_text="display page", widget=forms.HiddenInput(), initial=1, required=False)
+
+    def clean_keyword(self):
+        data = self.cleaned_data['keyword']
+        # if data == "cool":
+        #     raise ValidationError(_('keyword cannot cool'))
+        if data == "" or data is None:
+            raise ValidationError(_('keyword cannot empty!'))
+        # Remember to always return the cleaned data.
+        return data
+
+    def clean_page(self):
+        page = self.cleaned_data['page']
+        # if data == "cool":
+        #     raise ValidationError(_('keyword cannot cool'))
+        # Remember to always return the cleaned data.
+        return page

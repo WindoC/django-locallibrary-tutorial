@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from .models import Book, Author, BookInstance, Genre
 
+from function.paginationRewrite import Paginator
 
 def index(request):
     """View function for home page of site."""
@@ -35,6 +36,7 @@ class BookListView(generic.ListView):
     """Generic class-based view for a list of books."""
     model = Book
     paginate_by = 10
+    paginator_class = Paginator
 
 
 class BookDetailView(generic.DetailView):
@@ -46,6 +48,7 @@ class AuthorListView(generic.ListView):
     """Generic class-based list view for a list of authors."""
     model = Author
     paginate_by = 10
+    paginator_class = Paginator
 
 
 class AuthorDetailView(generic.DetailView):
@@ -61,6 +64,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_user.html'
     paginate_by = 10
+    paginator_class = Paginator
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
@@ -76,6 +80,7 @@ class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
     permission_required = 'catalog.can_mark_returned'
     template_name = 'catalog/bookinstance_list_borrowed_all.html'
     paginate_by = 10
+    paginator_class = Paginator
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
@@ -166,3 +171,40 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
+
+
+from django.core.cache import cache
+
+@login_required
+def SearchCocktail(request):
+    args = {}
+    if request.method == 'POST':
+        form = SearchCocktailForm(request.POST)
+        # print('is POST', file=sys.stderr)
+        if form.is_valid():
+            # print('is_valid', file=sys.stderr)
+            keyword = form.cleaned_data['keyword']
+            # print(keyword, file=sys.stderr)
+            page = form.cleaned_data['page']
+            # print(page, file=sys.stderr)
+            cocktails = cache.get('SearchCocktail_%s' % keyword)
+            if not cocktails:
+                response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/search.php', params={'s': keyword})
+                cocktails = response.json()['drinks']
+                cache.set('SearchCocktail_%s' % keyword , cocktails, 120)
+            if cocktails:
+                paginator = Paginator(cocktails, 3)
+                page_obj = paginator.get_page(page)
+                args['page_obj'] = page_obj
+                args['is_paginated'] = True if paginator.num_pages > 1 else False
+                args['cocktail_list'] = page_obj.object_list
+                form = SearchCocktailForm(initial={'keyword': keyword, 'page': page , })
+            else:
+                form = SearchCocktailForm(initial={'keyword': keyword,})
+        # else:
+        #     print(form.errors, file=sys.stderr)
+    else:
+        form = SearchCocktailForm()
+    args['form'] = form
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'catalog/SearchCocktail.html', args)

@@ -1,0 +1,73 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form method="post">
+
+{% csrf_token %}
+<div class="row justify-content-md-center">
+    <input class="form-control col {% if form.errors.keyword %}is-invalid{% endif %}" type="{{ form.keyword.widget_type }}" id="{{ form.keyword.id_for_label }}" name="{{ form.keyword.html_name }}" {% if form.keyword.value %}value="{{ form.keyword.value }}"{% endif %} {% if form.keyword.help_text %}placeholder="{{ form.keyword.help_text }}"{% endif %} aria-label="Search" onclick="document.getElementById('{{ form.page.id_for_label }}').value = 1;">
+    <button class="btn btn-primary col-auto" type="submit" id="search" name="search" value="search" >Search</button>
+    {% if form.errors.keyword %}
+    <div class="invalid-feedback">
+        {{ form.errors.keyword|join:" / " }}
+    </div>
+    {% endif %}
+</div>
+
+{% if cocktail_list %}
+<div class="album py-5 bg-light row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for item in cocktail_list %}
+    <div class="col">
+        <div class="card shadow-sm h-100">
+            <img class="card-img-top" src="{{ item.strDrinkThumb }}" />
+            <div class="card-body">
+                <h5 class="card-title">{{ item.strDrink }} ( {{ item.idDrink }} )</h5>
+                <p class="card-text">{{ item.strInstructions }}</p>
+                {% if item.strImageSource %}
+                    <a href="{{ item.strImageSource }}" class="btn btn-primary">Source</a>
+                {% endif %}
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <small class="text-muted p-1">{{ item.strCategory }}</small>
+                <small class="text-muted p-1">{{ item.strGlass }}</small>
+                <small class="text-muted p-1">{{ item.strAlcoholic }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if is_paginated %}
+    {% include 'pagination_form.html' with page_obj=page_obj %}
+{% endif %}
+
+</form>
+
+<!--
+<table border="1">
+    <thead>
+    <tr>
+        {% for key,value in cocktail.drinks.0.items %}
+        <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in cocktail.drinks %}
+    <tr>
+        {% for key,value in item.items %}
+        {% if key == "strDrinkThumb" %}
+        <td><img src={{ value }}></td>
+        {% else %}
+        <td>{{ value }}</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+-->
+
+{% endblock %}
