@@ -19,8 +19,9 @@
 {% else %}
   <p>There are no authors available.</p>
 {% endif %}
-        
-        
-        
-{% endblock %}
 
+{% if is_paginated %}
+    {% include 'pagination_get.html' with page_obj=page_obj %}
+{% endif %}
+
+{% endblock %}
