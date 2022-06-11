@@ -178,6 +178,30 @@ from django.core.cache import cache
 @login_required
 def SearchCocktail(request):
     args = {}
+    # keyword = request.GET.get('keyword')
+    # if keyword is not None and keyword != "":
+    #     cocktails = cache.get('SearchCocktail_%s' % keyword)
+    #     if not cocktails:
+    #         response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/search.php', params={'s': keyword})
+    #         searchresult = response.json()
+    #         cocktails = searchresult['drinks']
+    #         cache.set('SearchCocktail_%s' % keyword , cocktails, 120)
+    #     if cocktails:
+    #         paginator = Paginator(cocktails, 2)
+    #         page_number = request.GET.get('page')
+    #         if page_number is None:
+    #             page_number = 1
+    #         page_obj = paginator.get_page(page_number)
+    #         page_obj.adjusted_elided_pages = paginator.get_elided_page_range(page_number, on_each_side=2, on_ends=1)
+    #         is_paginated = True if paginator.num_pages > 1 else False
+    #         #print(len(list(paginator.get_elided_page_range(page_number, on_each_side=2, on_ends=1))), file=sys.stderr)
+    #         # print(page_obj, file=sys.stderr)
+    #         # print(page_obj.object_list, file=sys.stderr)
+    #         if page_obj.has_other_pages():
+    #             args['is_custom_paginated'] = True
+    #             args['current_get_value'] = [{'keyword' : keyword}]
+    #         args['page_obj'] = page_obj
+    #     form = SearchCocktailForm(initial={'keyword': keyword, })
     if request.method == 'POST':
         form = SearchCocktailForm(request.POST)
         # print('is POST', file=sys.stderr)
