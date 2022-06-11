@@ -50,18 +50,25 @@
         <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.view_name == 'authors' %}active{% endif %}" href="{% url 'authors' %}">All authors</a>
         </li>
-{% if perms.catalog.can_mark_returned %}
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'all-borrowed' %}active{% endif %}" href="{% url 'all-borrowed' %}">All borrowed</a>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {% if not user.is_authenticated %}disabled{% endif %} {% if request.resolver_match.view_name == 'my-borrowed' %}active{% endif %}" href="#" id="dropdown-user" data-bs-toggle="dropdown" aria-expanded="false">User</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-user">
+            <li><a class="dropdown-item {% if request.resolver_match.view_name == 'my-borrowed' %}active{% endif %}" href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+          </ul>
         </li>
-{% else %}
-        <li class="nav-item">
-          <a class="nav-link disabled">All borrowed</a>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {% if not user.is_staff %}disabled{% endif %} {% if request.resolver_match.view_name == 'all-borrowed' %}active{% endif %}" href="#" id="dropdown-staff" data-bs-toggle="dropdown" aria-expanded="false">Staff</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-staff">
+            <li><a class="dropdown-item {% if not perms.catalog.can_mark_returned %}disabled{% endif %} {% if request.resolver_match.view_name == 'all-borrowed' %}active{% endif %}" href="{% url 'all-borrowed' %}">All borrowed</a></li>
+          </ul>
         </li>
-{% endif %}
+
         <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.view_name == 'SearchCocktail' %}active{% endif %}" href="{% url 'SearchCocktail' %}">SearchCocktail</a>
         </li>
+
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 {% if user.is_authenticated %}
@@ -93,16 +100,6 @@
       <!-- {{ request.resolver_match.view_name }} -->
 
 {% block content %}{% endblock %}
-
-<!--
-
-{% if is_paginated %}
-    {% include 'pagination.html' with page_obj=page_obj %}
-{% elif is_custom_paginated %}
-    {% include 'pagination_custom.html' with page_obj=page_obj %}
-{% endif %}
-
--->
 
 </main>
 
