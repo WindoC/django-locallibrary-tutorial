@@ -1,4 +1,4 @@
-# Just forked for code storate and study
+# Just forked for code storage and study
 
 Please use the org. space https://github.com/mdn/django-locallibrary-tutorial if you don't know what I am doing.
 
@@ -32,7 +32,7 @@ docker exec -it django-playground python manage.py migrate
 docker exec -it django-playground python manage.py createsuperuser # Create a superuser
 ```
 
-Other command you may what to use. Just add the docker prefix before you command `docker exec -it django-playground <your command>`
+Other command you may want to use. Just add the docker prefix before your command `docker exec -it django-playground <your command>`
 
 Example: 
 
@@ -47,7 +47,7 @@ Also, you can get into the shell CMD by:
 docker exec -it django-playground bash
 ```
 
-### How to play the playground
+### How to play with the playground
 
 Check running log:
 
@@ -55,7 +55,7 @@ Check running log:
 docker logs django-playground
 ```
 
-if too many old log. Add `--since 3m` to get the last 3 mintues log. Or add `--tail 100` to get last 100 line
+if too many old log. Add `--since 3m` to get the last 3 mintues logs. Or add `--tail 100` to get last 100 lines
 
 ```shell
 docker logs --since 3m django-playground
