@@ -4,6 +4,8 @@ from django.core.cache import cache
 
 class TestThread(Thread):
 
+    daemon = True
+
     def run(self):
         cache.add('thread_running',0)
         while True:
