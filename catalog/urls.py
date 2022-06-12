@@ -42,3 +42,7 @@ urlpatterns += [
 urlpatterns += [
     path('search_cocktail/', views.SearchCocktail, name='SearchCocktail'),
 ]
+
+urlpatterns += [
+    path('thread_running/', views.TestThread, name='TestThread'),
+]

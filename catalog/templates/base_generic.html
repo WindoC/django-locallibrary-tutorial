@@ -69,6 +69,10 @@
           <a class="nav-link {% if request.resolver_match.view_name == 'SearchCocktail' %}active{% endif %}" href="{% url 'SearchCocktail' %}">SearchCocktail</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.view_name == 'TestThread' %}active{% endif %}" href="{% url 'TestThread' %}">TestThread</a>
+        </li>
+
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 {% if user.is_authenticated %}

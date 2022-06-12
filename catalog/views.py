@@ -25,7 +25,6 @@ def index(request):
         context={'num_books': num_books, 'num_instances': num_instances,
                  'num_instances_available': num_instances_available, 'num_authors': num_authors,
                  'num_visits': num_visits,
-                 'thread_running': cache.get('thread_running'),
                 },
     )
 
@@ -234,3 +233,14 @@ def SearchCocktail(request):
     args['form'] = form
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'catalog/SearchCocktail.html', args)
+
+
+def TestThread(request):
+    """View thread_running in cache."""
+
+    # Render the HTML template index.html with the data in the context variable.
+    return render(
+        request,
+        'thread_running.html',
+        context={ 'thread_running': cache.get('thread_running'), },
+    )
