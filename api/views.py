@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from .models import SbrCurrentsessions
 from django.core.cache import cache
 
+import logging
+logger = logging.getLogger(__name__)
+
 # default cache time for the APIs
 LIST_CACHE_TIMEOUT = 60
 

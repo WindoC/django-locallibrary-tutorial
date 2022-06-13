@@ -74,7 +74,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'DjangoCheck' %}active{% endif %}" href="{% url 'DjangoCheck' %}">DjangoCheck</a>
+          <a class="nav-link {% if request.resolver_match.view_name == 'healthcheck' %}active{% endif %}" href="{% url 'healthcheck' %}">healthcheck</a>
         </li>
 
       </ul>
