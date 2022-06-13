@@ -1,6 +1,4 @@
-from django.core.checks.database import check_database_backends
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from .models import SbrCurrentsessions
 from django.core.cache import cache
@@ -53,6 +51,7 @@ def get_ip(request, msisdn):
         str(int_ip % 16777216 % 65536 % 256)
     return JsonResponse({'api': 'get-ip', 'rc': 0, 'ip': ip})
 
+from django.core.checks.database import check_database_backends
 
 def healthcheck(request):
     """ app healthcheck example """
