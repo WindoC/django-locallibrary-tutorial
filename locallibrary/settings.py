@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Add our new application 
     'catalog.apps.CatalogConfig', #This object was created for us in /catalog/apps.py
+    # add another
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -85,15 +87,27 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     } ,
-    'test1': {
+    'aaa-1': {
+        'NAME': 'test',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test1',
-        'USER': 'test1',
-        'PASSWORD': 'test1',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'USER': 'testuser',
+        'PASSWORD': 'testpass',
+        'HOST': '172.22.1.105',
+        'PORT': '33061',
+        # "OPTIONS": {"init_command": "SET default_storage_engine=;"},
+    },
+    'aaa-2': {
+        'NAME': 'test',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'testuser',
+        'PASSWORD': 'testpass',
+        'HOST': '172.22.1.105',
+        'PORT': '33062',
+        # "OPTIONS": {"init_command": "SET default_storage_engine=;"},
     }
 }
+
+DATABASE_ROUTERS = ['api.router.Router']
 
 
 # Password validation

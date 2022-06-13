@@ -1,11 +1,10 @@
 from django.apps import AppConfig
 
-from .jobs import TestThread
+from .jobs import CheckDB
 
-class CatalogConfig(AppConfig):
+class ApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'catalog'
+    name = 'api'
 
     def ready(self):
-        TestThread().start()
-
+        CheckDB().start()

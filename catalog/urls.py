@@ -47,6 +47,3 @@ urlpatterns += [
     path('thread_running/', views.TestThread, name='TestThread'),
 ]
 
-urlpatterns += [
-    path('djangocheck/', views.DjangoCheck, name='DjangoCheck'),
-]

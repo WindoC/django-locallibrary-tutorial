@@ -247,14 +247,3 @@ def TestThread(request):
 
 
 
-def DjangoCheck(request):
-    """View for django test."""
-
-    return render(
-        request,
-        'django_check.html',
-        context={
-            'jobs_CheckDB_default': cache.get('jobs_CheckDB_default'),
-            'jobs_CheckDB_test1': cache.get('jobs_CheckDB_test1'),
-                },
-    )
