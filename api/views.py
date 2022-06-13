@@ -57,23 +57,25 @@ def healthcheck(request):
     """ app healthcheck example """
 
     theout = {'api': 'healthcheck', 'rc': 0}
-
     is_health = True
 
     databases = ['aaa-1', 'aaa-2']
+    theout['database'] = {}
     for db in databases:
+        theout['database'][db] = {}
         try:
             checkresult = check_database_backends([db])
             if not checkresult:
-               theout['healthcheck_database_%s' % db] = True
+               theout['database'][db]['is_health'] = True
             else:
-                theout['healthcheck_database_%s' % db] = False
-                theout['healthcheck_database_error_%s' % db] = checkresult
+                theout['database'][db]['is_health'] = False
+                theout['database'][db]['error'] = checkresult
                 is_health = False
         except Exception as e:
-            theout['healthcheck_database_%s' % db] = False
-            theout['healthcheck_database_exception_class_%s' % db] = str(e.__class__.__name__)
-            theout['healthcheck_database_exception_%s' % db] = str(e)
+            theout['database'][db]['is_health'] = False
+            theout['database'][db]['exception'] = {}
+            theout['database'][db]['exception']['class'] = str(e.__class__.__name__)
+            theout['database'][db]['exception']['desc'] = str(e)
             is_health = False
 
     theout['is_health'] = is_health

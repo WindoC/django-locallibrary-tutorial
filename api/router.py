@@ -7,8 +7,9 @@ class Router:
     A router to control all database operations on models in the
     auth and contenttypes applications.
     """
-    route_app_labels = {'api'}
+    route_app_labels = [ 'api' ]
     router_db =  [ 'aaa-1' , 'aaa-2' ]
+    default_db_module = ['accounting']
 
     def _checkdb_result(self):
         list_db = []
@@ -21,12 +22,12 @@ class Router:
         return list_db
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label in self.route_app_labels:
+        if model._meta.app_label in self.route_app_labels and model._meta.model_name not in self.default_db_module:
             return random.choice(self._checkdb_result())
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label in self.route_app_labels:
+        if model._meta.app_label in self.route_app_labels and model._meta.model_name not in self.default_db_module:
             return random.choice(self._checkdb_result())
         return None
 
@@ -37,7 +38,7 @@ class Router:
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if db == self.router_db or app_label in self.route_app_labels:
+        if ( db in self.router_db or app_label in self.route_app_labels ) and model_name not in self.default_db_module:
             return False  # we're not using syncdb on our legacy database
         else:  # but all other models/databases are fine
             return None

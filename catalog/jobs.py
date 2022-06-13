@@ -4,7 +4,7 @@ from django.core.cache import cache
 
 class TestThread(Thread):
 
-    daemon = True
+    daemon = True         # to fix the django cmd hang issue
 
     def run(self):
         cache.add('thread_running',0)

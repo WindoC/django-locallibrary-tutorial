@@ -7,7 +7,7 @@ from django.core.checks.database import check_database_backends
 
 class CheckDB(Thread):
 
-    daemon = True
+    daemon = True   # to fix the django cmd hang issue
 
     def run(self):
 
