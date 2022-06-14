@@ -60,7 +60,7 @@ def healthcheck(request):
     """ app healthcheck example """
 
     theout = {'api': 'healthcheck', 'rc': 0}
-    is_health = True
+    theout['is_health'] = True
 
     databases = ['aaa-1', 'aaa-2']
     theout['database'] = {}
@@ -73,14 +73,12 @@ def healthcheck(request):
             else:
                 theout['database'][db]['is_health'] = False
                 theout['database'][db]['error'] = checkresult
-                is_health = False
+                theout['is_health'] = False
         except Exception as e:
             theout['database'][db]['is_health'] = False
             theout['database'][db]['exception'] = {}
             theout['database'][db]['exception']['class'] = str(e.__class__.__name__)
             theout['database'][db]['exception']['desc'] = str(e)
-            is_health = False
-
-    theout['is_health'] = is_health
+            theout['is_health'] = False
 
     return JsonResponse(theout)

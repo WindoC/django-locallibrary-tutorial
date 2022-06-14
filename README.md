@@ -47,6 +47,23 @@ Also, you can get into the shell CMD by:
 docker exec -it django-playground bash
 ```
 
+### Environment
+
+We can add environment to control setting when execute docker create the `docker run ... django-example`
+
+```shell
+docker run -d -e TZ=Asia/Hong_Kong -p 8000:8000 -v $(pwd):/usr/src/app --name django-playground django-example
+```
+
+Remark: you can add `-e TZ=Asia/Hong_Kong` to pass to setting outside through os.getenv(XXX) to inside the Django.
+
+#### list
+
+- TZ : Time Zone setting
+- DJANGO_LOG_LEVEL : DEBUG / INFO / WARNING / ERROR / CRITICAL
+- DJANGO_SECRET_KEY
+- DJANGO_DEBUG = True / False
+
 ### How to play with the playground
 
 Check running log:
