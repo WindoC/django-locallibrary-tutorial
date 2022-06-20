@@ -1,6 +1,8 @@
 import random
 
-from django.core.cache import cache
+# from django.core.cache import cache
+
+from api.jobs import DBStatus
 
 class Router:
     """
@@ -10,25 +12,28 @@ class Router:
     route_app_labels = [ 'api' ]
     router_db =  [ 'aaa-1' , 'aaa-2' ]
     default_db_module = ['accounting']
+    dbstatus = DBStatus()
 
-    def _checkdb_result(self):
-        list_db = []
-        for db in self.router_db:
-            try:
-                if cache.get('jobs_CheckDB_%s' % db):
-                    list_db.append(db)
-            except:
-                pass
-        return list_db
+    # def _checkdb_result(self):
+    #     list_db = []
+    #     for db in self.router_db:
+    #         try:
+    #             if self.dbstatus.get(db):
+    #                 list_db.append(db)
+    #         except:
+    #             pass
+    #     return list_db
 
     def db_for_read(self, model, **hints):
         if model._meta.app_label in self.route_app_labels and model._meta.model_name not in self.default_db_module:
-            return random.choice(self._checkdb_result())
+            # return random.choice(self._checkdb_result())
+            return random.choice(self.dbstatus.dblist())
         return None
 
     def db_for_write(self, model, **hints):
         if model._meta.app_label in self.route_app_labels and model._meta.model_name not in self.default_db_module:
-            return random.choice(self._checkdb_result())
+            # return random.choice(self._checkdb_result())
+            return random.choice(self.dbstatus.dblist())
         return None
 
     def allow_relation(self, obj1, obj2, **hints):

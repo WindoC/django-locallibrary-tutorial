@@ -234,15 +234,15 @@ def SearchCocktail(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'catalog/SearchCocktail.html', args)
 
+from .jobs import TestCounter
 
 def TestThread(request):
-    """View thread_running in cache."""
-
+    counter = TestCounter()
     # Render the HTML template index.html with the data in the context variable.
     return render(
         request,
         'thread_running.html',
-        context={ 'thread_running': cache.get('thread_running'), },
+        context={ 'thread_running': counter.get(), },
     )
 
 
